@@ -10,9 +10,9 @@ public class Board {
 	private int numColums;
 
 	public void loadConfigFiles() {
-		
+
 	}
-	
+
 	public int calcIndex(int row, int column) {
 		return column + row * numRows;
 	}
@@ -21,5 +21,28 @@ public class Board {
 		return null;
 	}
 	
+	public int numberOfRooms()
+	{
+		return rooms.size();
+	}
 	
+	public String roomNameWithChar(char c)
+	{ // Does not check errors
+		return rooms.get(c);
+	}
+	
+	public ArrayList<BoardCell> getBoard()
+	{
+		return cells;
+	}
+	
+	public int getNumberRow()
+	{
+		return numRows;
+	}
+	
+	public int getNumberColumn()
+	{
+		return numColums;
+	}
 }
