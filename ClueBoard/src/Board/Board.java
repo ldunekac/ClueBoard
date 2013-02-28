@@ -1,27 +1,59 @@
 package Board;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Map;
+
+import javax.swing.JOptionPane;
 
 public class Board {
 	private ArrayList<BoardCell> cells;
 	private Map<Character, String> rooms;
 	private int numRows;
-	private int numColums;
+	private int numColumns;
 
 	public Board()
 	{
-		cells = new ArrayList<BoardCell>();
+		__init__("boardConfig.cvs", "legendConfig.txt");
 	}
-	public Board(String fileName)
+	
+	public Board(String boardFileName)
 	{
+		__init__(boardFileName, "legendConfig.txt");
+	}
+	public Board(String boardFileName, String logFileName)
+	{
+		__init__(boardFileName, logFileName);
+	}
+	
+	public void __init__(String boardFileName, String logFileName)
+	{
+		InitializeBoard initBoard = new InitializeBoard(boardFileName, logFileName);
+		try {
+			initBoard.loadFiles();
+		} 
+		catch (FileNotFoundException e) 
+		{
+			String error = boardFileName + " or " +  logFileName + " was not found.";
+			JOptionPane.showMessageDialog(null,error);
+			System.exit(1);
+		} 
+		catch (BadConfigFormatException e)
+		{
+			String error = "Bad ConfigureationFile.\n See ErrorLog.txt for more information";
+			JOptionPane.showMessageDialog(null,error);
+			System.exit(1);
+		}
+		finally 
+		{
+			rooms = initBoard.getRoomMap();
+			cells = initBoard.getBoardCells();
+			numRows = initBoard.getNumberOfColumns();
+			numColumns = initBoard.getNumberOfRows();
+		}
 		
 	}
 	
-	public void loadConfigFiles() {
-		
-	}
-
 	public int calcIndex(int row, int column) {
 		return column + row * numRows;
 	}

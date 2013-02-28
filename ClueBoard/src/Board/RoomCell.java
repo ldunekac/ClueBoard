@@ -12,21 +12,27 @@ public class RoomCell extends BoardCell {
 
 	public RoomCell(char roomName)
 	{
-		cellCharacter = roomName;
+		__init__(roomName, DoorDirection.NONE);
 	}
 	
+	public RoomCell(char roomName, DoorDirection direction)
+	{
+		__init__(roomName, direction);
+	}
+	
+	private void __init__(char roomName, DoorDirection direction)
+	{
+		cellIdentifer = roomName;
+		doorDirection = direction;
+	}
 	@Override
 	public void draw(Graphics g) {
 
 	}
 
 	// FOR TESTING PURPOSES ONLY
-	public String getDirection()
+	public DoorDirection getDirection()
 	{
-		if(doorDirection == DoorDirection.UP) return "UP";
-		if(doorDirection == DoorDirection.DOWN) return "DOWN";
-		if(doorDirection == DoorDirection.LEFT) return "LEFT";
-		if(doorDirection == DoorDirection.RIGHT) return "RIGHT";
-		return "NONE";
+		return doorDirection;
 	}
 }

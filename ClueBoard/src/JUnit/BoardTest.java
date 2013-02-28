@@ -40,7 +40,6 @@ public class BoardTest {
 	public void  reset()
 	{ // Reset the board to original state
 		board = new Board(); // TODO input file name
-		board.loadConfigFiles();
 	}
 	
 	@Test

@@ -5,7 +5,7 @@ import java.awt.Graphics;
 public abstract class BoardCell {
 	private int row;
 	private int column;
-	protected char cellCharacter;
+	protected char cellIdentifer;
 
 	public boolean isWalkway() {
 		return false;
@@ -27,7 +27,7 @@ public abstract class BoardCell {
 	
 	public char getCellCharacter()
 	{
-		return cellCharacter;
+		return cellIdentifer;
 	}
 
 }
