@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import Board.BadConfigFormatException;
@@ -15,6 +17,8 @@ import Board.RoomCell.DoorDirection;
  *  This class takes a fileName and loads the config file the board and legend files
  *  
  *  and will make a ArrayList of BoardCells and the Map for the characters
+ *  
+ *  and will tell the number of rows, number of columns and the number or Rooms
  *  
  *  This class throws a FileNotFoundException and a BadConfigFormatException in function parse()
  *  
@@ -30,7 +34,7 @@ public class InitializeBoard {
 	private Map<Character, String> characerRoomsMap;
 	private int numberOfColumns;
 	private int numberOfRows;
-
+	private Set<Character> CharactersSeen;
 	// Constructors
 	// All constructors must call "__init__" to initialize private variables
 	public InitializeBoard()
@@ -52,6 +56,7 @@ public class InitializeBoard {
 		characerRoomsMap = new HashMap<Character, String>();
 		numberOfColumns = 0;
 		numberOfRows = 0;
+		 CharactersSeen = new HashSet<Character>();
 	}
 	
 	
@@ -76,6 +81,11 @@ public class InitializeBoard {
 		return numberOfColumns;
 	}
 	
+	public int getNumberOfRooms()
+	{
+		//System.out.println(CharactersSeen);
+		return CharactersSeen.size();
+	}
 	// Parsing functions
 	public void loadFiles() throws FileNotFoundException
 	{ // loads legend then the board. The loadLegend function must be called first
@@ -100,7 +110,7 @@ public class InitializeBoard {
 	public void parseLegend(String line, int row) throws BadConfigFormatException
 	{
 		// regex string for legend
-		System.out.println(line);
+		//System.out.println(line);
 		String regex = " *(\\w+) *, *(.*) *";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(line);
@@ -163,15 +173,20 @@ public class InitializeBoard {
 			{
 				switch(cellType)
 				{
-				case "w": return new WalkwayCell(cellType.charAt(0));
-				default: return new RoomCell(cellType.charAt(0));
+				case "W": return new WalkwayCell(cellType.charAt(0));
+				default: 
+				{
+					CharactersSeen.add(cellType.charAt(0)); //System.out.println(cellType);
+					return new RoomCell(cellType.charAt(0));
+				}
 				}
 			}
 			else
 				throw new BadConfigFormatException("Cell " + currentRow + ", " + currentColumn +" is not containd in legend");
 		}
-		if(cellType.length() == 2)
+		if(cellType.length() == 2 && cellType.charAt(0) != 'W')
 		{
+			CharactersSeen.add(cellType.charAt(0));
 			switch(cellType.charAt(1))
 			{
 			case 'U': return new RoomCell(cellType.charAt(0), DoorDirection.UP);

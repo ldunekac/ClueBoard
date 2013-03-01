@@ -51,11 +51,13 @@ public class BoardTest {
 	@Test
 	public void testCalcIndex()
 	{
-		Assert.assertTrue(board.calcIndex(0,0) == 0);
-		Assert.assertTrue(board.calcIndex(0,22) == 22);
-		Assert.assertTrue(board.calcIndex(21,0) == 21*22+0);
-		Assert.assertTrue(board.calcIndex(11,13) == 11*22+13);
-		Assert.assertTrue(board.calcIndex(21,23) == 21*22+23);
+		Assert.assertTrue(board.calcIndex(1,1) == 0);
+		Assert.assertTrue(board.calcIndex(1,23) == 22);
+		Assert.assertTrue(board.calcIndex(2,1) == 23);
+		Assert.assertTrue(board.calcIndex(2,11) == 33);
+		
+		//Assert.assertTrue(board.calcIndex(11,13) == 11*22+13);
+		//Assert.assertTrue(board.calcIndex(21,23) == 21*22+23);
 	}
 
 	@Test
@@ -99,23 +101,23 @@ public class BoardTest {
 	@Test
 	public void DoorDirection()
 	{
-		Assert.assertTrue(board.getDoorDirection(2, 5) == "RIGHT");
-		Assert.assertTrue(board.getDoorDirection(5,2) == "DOWN");
-		Assert.assertTrue(board.getDoorDirection(4,21) == "DOWN");
-		Assert.assertTrue(board.getDoorDirection(1,18) == "LEFT");
-		Assert.assertTrue(board.getDoorDirection(19,13) == "UP");
+		Assert.assertTrue(board.getDoorDirection(3, 6).equals("RIGHT"));
+		Assert.assertTrue(board.getDoorDirection(6,3).equals("DOWN"));
+		Assert.assertTrue(board.getDoorDirection(5,22).equals("DOWN"));
+		Assert.assertTrue(board.getDoorDirection(2,19).equals("LEFT"));
+		Assert.assertTrue(board.getDoorDirection(20,14).equals("UP"));
 	}
 	
 	@Test
 	public void ValidRoom()
 	{
-		Assert.assertTrue(board.getRoomNameAt(8, 0) == "Toilet");
-		Assert.assertTrue(board.getRoomNameAt(8, 1) == "Toilet");
-		Assert.assertTrue(board.getRoomNameAt(9, 0) == "Toilet");
-		Assert.assertTrue(board.getRoomNameAt(9, 1) == "Toilet");
-		Assert.assertTrue(board.getRoomNameAt(7, 0) != "Toilet");
+		Assert.assertTrue(board.getRoomNameAt(9, 1).equals("Toilet"));
+		Assert.assertTrue(board.getRoomNameAt(10, 1).equals("Toilet"));
+		Assert.assertTrue(board.getRoomNameAt(9, 2).equals("Toilet"));
+		Assert.assertTrue(board.getRoomNameAt(10, 2).equals("Toilet"));
+		Assert.assertTrue(!board.getRoomNameAt(7, 0).equals("Toilet"));
 	}
-	/*
+	
 	@Test
 	public void invalidBoardConfiguration()
 	{
@@ -141,5 +143,5 @@ public class BoardTest {
 			Assert.assertTrue(true);
 		}
 	}
-	*/
+	
 }

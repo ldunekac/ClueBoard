@@ -26,13 +26,33 @@ public class RoomCell extends BoardCell {
 		doorDirection = direction;
 	}
 	@Override
+	public boolean isRoom() {
+		return true;
+	}
+	
+	@Override
+	public boolean isDoorway() {
+		if(doorDirection == DoorDirection.NONE)
+			return false;
+		else
+			return true;
+	}
+	
+	@Override
 	public void draw(Graphics g) {
 
 	}
 
 	// FOR TESTING PURPOSES ONLY
-	public DoorDirection getDirection()
+	public String getDirection()
 	{
-		return doorDirection;
+		switch (doorDirection)
+		{
+			case DOWN : return "DOWN";
+			case UP : return "UP";
+			case RIGHT: return "RIGHT";
+			case LEFT: return "LEFT";
+			default: return "NONE";
+		}
 	}
 }

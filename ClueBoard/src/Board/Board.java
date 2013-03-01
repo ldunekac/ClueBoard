@@ -6,11 +6,14 @@ import java.util.Map;
 
 import javax.swing.JOptionPane;
 
+import Board.RoomCell.DoorDirection;
+
 public class Board {
 	private ArrayList<BoardCell> cells;
 	private Map<Character, String> rooms;
 	private int numRows;
 	private int numColumns;
+	private int numberOfRooms;
 
 	public Board()
 	{
@@ -38,24 +41,26 @@ public class Board {
 			JOptionPane.showMessageDialog(null,error);
 			System.exit(1);
 		} 
-		catch (BadConfigFormatException e)
-		{
-			String error = "Bad ConfigureationFile.\n See ErrorLog.txt for more information";
-			JOptionPane.showMessageDialog(null,error);
-			System.exit(1);
-		}
+		// THIS IS COMMENTED OUT FOR TESTING PURPOSES
+	//	catch (BadConfigFormatException e)
+	//	{
+	//		String error = "Bad ConfigureationFile.\n See ErrorLog.txt for more information";
+	//		JOptionPane.showMessageDialog(null,error);
+	//		System.exit(1);
+	//	}
 		finally  // TODO Close File
 		{
 			rooms = initBoard.getRoomMap();
 			cells = initBoard.getBoardCells();
 			numRows = initBoard.getNumberOfRows();
 			numColumns = initBoard.getNumberOfColumns();
+			numberOfRooms = initBoard.getNumberOfRooms();
 		}
 		
 	}
 	
 	public int calcIndex(int row, int column) {
-		int retn = column + row * numRows;
+		int retn = (column - 1) + (row - 1) * (numRows + 1);
 		return retn;
 	}
 
@@ -64,8 +69,9 @@ public class Board {
 	}
 	
 	public int numberOfRooms()
-	{
-		return -1;
+	{ 
+		int rtn = numberOfRooms;
+		return rtn;
 	}
 	
 	public String roomNameWithChar(char c)
@@ -100,11 +106,16 @@ public class Board {
 	public String getDoorDirection(int row, int column)
 	{
 		int location = calcIndex(row, column);
-		return "NOPE";//((RoomCell)cells.get(location)).getDirection();
+		if (cells.get(location) instanceof RoomCell )
+			return ((RoomCell)cells.get(location)).getDirection();
+		return "NONE";
+			
 	}
 	
 	public String getRoomNameAt(int row, int column)
 	{
-		return "NOT A ROOM";// rooms.get(cells.get(calcIndex(row,column)).getCellCharacter());
+		int cal = calcIndex(row, column);
+		String s = rooms.get(cells.get(calcIndex(row,column)).getCellCharacter());
+		return s;
 	}
 }
