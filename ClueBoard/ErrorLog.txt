@@ -1,0 +1,25 @@
+Cell 0, 1in the boardConfig file contains more than two letters
+Cell 0, 1 in the boardConfig file contains more than two letters
+Cell 0, 1 in the boardConfig file contains more than two letters
+Cell not containd in legend
+Cell 0, 0is not containd in legend
+Cell 0, 0 is not containd in legend
+Cell 0, 0 is not containd in legend
+Legend File not formated Correctly
+Legend File not formated Correctly
+Row 0 in legend File not formated Correctly
+Not all rows in the boardConfig file are the same length
+Not all rows in the boardConfig file are the same length
+Row 17 in the boardConfig file is a defferent length
+Row 17 in the boardConfig file is a defferent length
+Row 17 in the boardConfig file is a defferent length
+Row 17 in the boardConfig file is a defferent length
+Row 17 in the boardConfig file is a defferent length
+Row 17 in the boardConfig file is a defferent length
+Row 17 in the boardConfig file is a defferent length
+Row 17 in the boardConfig file is a defferent length
+Row 17 in the boardConfig file is a defferent length
+Row 17 in the boardConfig file is a defferent length
+Row 17 in the boardConfig file is a defferent length
+Row 17 in the boardConfig file is a defferent length
+Row 17 in the boardConfig file is a defferent length

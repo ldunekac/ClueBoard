@@ -14,7 +14,7 @@ public class Board {
 
 	public Board()
 	{
-		__init__("boardConfig.cvs", "legendConfig.txt");
+		__init__("boardConfig.csv", "legendConfig.txt");
 	}
 	
 	public Board(String boardFileName)
@@ -44,18 +44,19 @@ public class Board {
 			JOptionPane.showMessageDialog(null,error);
 			System.exit(1);
 		}
-		finally 
+		finally  // TODO Close File
 		{
 			rooms = initBoard.getRoomMap();
 			cells = initBoard.getBoardCells();
-			numRows = initBoard.getNumberOfColumns();
-			numColumns = initBoard.getNumberOfRows();
+			numRows = initBoard.getNumberOfRows();
+			numColumns = initBoard.getNumberOfColumns();
 		}
 		
 	}
 	
 	public int calcIndex(int row, int column) {
-		return column + row * numRows;
+		int retn = column + row * numRows;
+		return retn;
 	}
 
 	public BoardCell GetRoomCellAt(int row, int column) {
@@ -69,7 +70,8 @@ public class Board {
 	
 	public String roomNameWithChar(char c)
 	{ // Does not check errors
-		return "NOPE SORRY";//rooms.get(c);
+		String rtn = rooms.get(c);
+		return rtn;
 	}
 	
 // FUNCTIONS FOR TESTING ONLY
@@ -81,12 +83,12 @@ public class Board {
 	
 	public int getNumberRow()
 	{
-		return -1;// numRows;
+		return numRows;
 	}
 	
 	public int getNumberColumn()
 	{
-		return -1;// numColums;
+		return numColumns;
 	}
 	
 	public BoardCell cellAt(int row, int column)

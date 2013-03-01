@@ -14,16 +14,17 @@ import Board.RoomCell.DoorDirection;
 /*
  *  This class takes a fileName and loads the config file the board and legend files
  *  
- *  This class will make a ArrayList of BoardCells and the Map for the characters
+ *  and will make a ArrayList of BoardCells and the Map for the characters
  *  
- *  This class throws FileNotFoundException and BadConfigFormatException in function parse()
+ *  This class throws a FileNotFoundException and a BadConfigFormatException in function parse()
  *  
- *  Rooms can be named anything but walkways must have the char 'w' as the identifer
+ *  Rooms can be named anything but walkways must have the char 'W' as the identifier
  *  
  */
 public class InitializeBoard {
 	private String boardFileName;
 	private String legendFileName;
+	
 	// What the class generates
 	private ArrayList<BoardCell> cells;
 	private Map<Character, String> characerRoomsMap;
@@ -34,7 +35,7 @@ public class InitializeBoard {
 	// All constructors must call "__init__" to initialize private variables
 	public InitializeBoard()
 	{
-		__init__("boardConfig.cvs", "legendConfig.txt");
+		__init__("boardConfig.csv", "legendConfig.txt");
 	}
 	
 	public InitializeBoard(String boardFile, String legendFile)
@@ -77,7 +78,7 @@ public class InitializeBoard {
 	
 	// Parsing functions
 	public void loadFiles() throws FileNotFoundException
-	{
+	{ // loads legend then the board. The loadLegend function must be called first
 		loadLegend();
 		loadBoard();
 	}
@@ -87,28 +88,31 @@ public class InitializeBoard {
 	{
 		File file = new File(legendFileName);
 		Scanner scan = new Scanner(file);
-		
+		int count = 0;
 		while(scan.hasNextLine())
 		{
-			parseLegend(scan.nextLine());
+			count++;
+			parseLegend(scan.nextLine(), count);
 		}
 		scan.close();
 	}
 	
-	public void parseLegend(String line) throws BadConfigFormatException
+	public void parseLegend(String line, int row) throws BadConfigFormatException
 	{
 		// regex string for legend
-		String regex = "(\\w) *, *(\\w+)";
+		System.out.println(line);
+		String regex = " *(\\w+) *, *(.*) *";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(line);
 		
 		if (matcher.find())
 		{
-			characerRoomsMap.put(matcher.group(0).charAt(0), matcher.group(1));
+			//System.out.println("\""+matcher.group(1)+"\"" + " | " + "\""+matcher.group(2)+"\"");
+			characerRoomsMap.put(matcher.group(1).charAt(0), matcher.group(2));
 		}
 		else
 		{
-			throw new BadConfigFormatException("Legend File not formated Correctly");
+			throw new BadConfigFormatException("Row " + row + " in legend File not formated Correctly");
 		}
 		
 	}
@@ -122,33 +126,36 @@ public class InitializeBoard {
 		
 		while(scan.hasNextLine())
 		{
-			parseBoard(scan.nextLine());
 			numberOfRows++;
+			String s = scan.nextLine();
+			//System.out.println(s);
+			parseBoard(s, numberOfRows);
 		}
 		
 		scan.close();
 	}
 	
-	private void parseBoard(String line)
+	private void parseBoard(String line, int currentRow)
 	{
-		String[] split = line.split(";");
+		String[] split = line.split(",");
 		
 		if(split.length == 0) throw new BadConfigFormatException("boardConfig file has no attributes in row: " + numberOfRows);
 		
 		int count = 0;
 		for(String s : split)
 		{
+			//System.out.println(s);
 			count++;
-			cells.add(makeCell(s));
-		}
+			cells.add(makeCell(s,currentRow, count));
+		}//System.out.println(currentRow);
 		
 		if(numberOfColumns == 0) 
 			numberOfColumns = count;
 		else if (count != numberOfColumns)
-			throw new BadConfigFormatException("Not all rows in the boardConfig file are the same length");
+			throw new BadConfigFormatException("Row " + currentRow  + " in the boardConfig file is a defferent length");
 	}
 	
-	private BoardCell makeCell(String cellType)
+	private BoardCell makeCell(String cellType, int currentRow, int currentColumn)
 	{
 		if(cellType.length() == 1)
 		{
@@ -161,7 +168,7 @@ public class InitializeBoard {
 				}
 			}
 			else
-				throw new BadConfigFormatException("Cell not containd in legend");
+				throw new BadConfigFormatException("Cell " + currentRow + ", " + currentColumn +" is not containd in legend");
 		}
 		if(cellType.length() == 2)
 		{
@@ -175,6 +182,6 @@ public class InitializeBoard {
 			}
 		}
 		else
-			throw new BadConfigFormatException("A cell in the boardConfig file contains more than two letters");
+			throw new BadConfigFormatException("Cell " + currentRow + ", " + currentColumn + " in the boardConfig file contains more than two letters");
 	}
 }

@@ -15,7 +15,7 @@ public class BadConfigFormatException extends RuntimeException {
 	public void createLog(String message) {
 		try {
 			FileWriter fw = new FileWriter("ErrorLog.txt", true);
-			fw.write(message);
+			fw.write(message + "\n");
 			fw.close();
 		} catch (IOException e) {
 			System.err.println("IOException cannot open file: ErrorLog.txt");
