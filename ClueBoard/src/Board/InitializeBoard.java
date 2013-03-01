@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 import Board.BadConfigFormatException;
 import Board.RoomCell.DoorDirection;
 
-/*
+/* DESCRIPTION
  *  This class takes a fileName and loads the config file the board and legend files
  *  
  *  and will make a ArrayList of BoardCells and the Map for the characters
@@ -24,6 +24,9 @@ import Board.RoomCell.DoorDirection;
  *  
  *  Rooms can be named anything but walkways must have the char 'W' as the identifier
  *  
+ *  This class has a lot of nested if statements. These statements are used to produce good error messages
+ *  
+ *  Functions that take a row and or column for a parameters is for the error messages
  */
 public class InitializeBoard {
 	private String boardFileName;
@@ -34,7 +37,8 @@ public class InitializeBoard {
 	private Map<Character, String> characerRoomsMap;
 	private int numberOfColumns;
 	private int numberOfRows;
-	private Set<Character> CharactersSeen;
+	private Set<Character> CharactersSeen; // For testing Purposes
+	
 	// Constructors
 	// All constructors must call "__init__" to initialize private variables
 	public InitializeBoard()
@@ -56,7 +60,7 @@ public class InitializeBoard {
 		characerRoomsMap = new HashMap<Character, String>();
 		numberOfColumns = 0;
 		numberOfRows = 0;
-		 CharactersSeen = new HashSet<Character>();
+		CharactersSeen = new HashSet<Character>(); // FOR TESTING ONLY
 	}
 	
 	
@@ -95,7 +99,7 @@ public class InitializeBoard {
 	
 // LEGEND PARSE FUNCTIONS
 	private void loadLegend() throws FileNotFoundException
-	{
+	{ // Takes each line in the legend and gives it parseLegend to evulate it
 		File file = new File(legendFileName);
 		Scanner scan = new Scanner(file);
 		int count = 0;
@@ -108,7 +112,9 @@ public class InitializeBoard {
 	}
 	
 	public void parseLegend(String line, int row) throws BadConfigFormatException
-	{
+	{// takes the line and matches it with an regular expression
+	 // if there is a match then the line was a valid legend statement
+	// and then the character map is updated
 		// regex string for legend
 		//System.out.println(line);
 		String regex = " *(\\w+) *, *(.*) *";
@@ -129,7 +135,7 @@ public class InitializeBoard {
 	
 // BOARD PARSE FUNCTONS
 	private void loadBoard() throws FileNotFoundException
-	{
+	{ // takes each line of the board and gives it to parseBoard for evaluation
 		File file = new File(boardFileName);
 		
 		Scanner scan = new Scanner(file);
@@ -146,7 +152,8 @@ public class InitializeBoard {
 	}
 	
 	private void parseBoard(String line, int currentRow)
-	{
+	{ // Makes sure every cell is correct, correct number of columns
+		
 		String[] split = line.split(",");
 		
 		if(split.length == 0) throw new BadConfigFormatException("boardConfig file has no attributes in row: " + numberOfRows);
@@ -159,18 +166,19 @@ public class InitializeBoard {
 			cells.add(makeCell(s,currentRow, count));
 		}//System.out.println(currentRow);
 		
-		if(numberOfColumns == 0) 
+		if(numberOfColumns == 0) // Only happen for the first line 
 			numberOfColumns = count;
 		else if (count != numberOfColumns)
 			throw new BadConfigFormatException("Row " + currentRow  + " in the boardConfig file is a defferent length");
 	}
 	
 	private BoardCell makeCell(String cellType, int currentRow, int currentColumn)
-	{
-		if(cellType.length() == 1)
+	{ // creates a cell given a certain type
+		if(cellType.length() == 1) // non door cells
 		{
+			// Makes sure the type is a valid room type
 			if(characerRoomsMap.containsKey(cellType.charAt(0)))
-			{
+			{ 
 				switch(cellType)
 				{
 				case "W": return new WalkwayCell(cellType.charAt(0));
@@ -181,19 +189,27 @@ public class InitializeBoard {
 				}
 				}
 			}
-			else
+			else // char is not recognized
 				throw new BadConfigFormatException("Cell " + currentRow + ", " + currentColumn +" is not containd in legend");
 		}
+		// For door rooms
 		if(cellType.length() == 2 && cellType.charAt(0) != 'W')
 		{
-			CharactersSeen.add(cellType.charAt(0));
-			switch(cellType.charAt(1))
+			if(characerRoomsMap.containsKey(cellType.charAt(0)))
+			{ 
+				CharactersSeen.add(cellType.charAt(0)); // for testing
+				switch(cellType.charAt(1)) // direction of door
+				{
+				case 'U': return new RoomCell(cellType.charAt(0), DoorDirection.UP);
+				case 'D': return new RoomCell(cellType.charAt(0), DoorDirection.DOWN);
+				case 'R': return new RoomCell(cellType.charAt(0), DoorDirection.RIGHT);
+				case 'L': return new RoomCell(cellType.charAt(0), DoorDirection.LEFT);
+				default: throw new BadConfigFormatException("Door Direction is not Valid");
+				}
+			}
+			else
 			{
-			case 'U': return new RoomCell(cellType.charAt(0), DoorDirection.UP);
-			case 'D': return new RoomCell(cellType.charAt(0), DoorDirection.DOWN);
-			case 'R': return new RoomCell(cellType.charAt(0), DoorDirection.RIGHT);
-			case 'L': return new RoomCell(cellType.charAt(0), DoorDirection.LEFT);
-			default: throw new BadConfigFormatException("Door Direction is not Valid");
+				throw new BadConfigFormatException("Cell " + currentRow + ", " + currentColumn + " in the boardConfig is not a valid Room");
 			}
 		}
 		else

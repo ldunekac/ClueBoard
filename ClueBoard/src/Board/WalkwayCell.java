@@ -1,5 +1,9 @@
 package Board;
 
+/* DESCRIPTION
+ * Cell that is a walkway
+ */
+
 public class WalkwayCell extends BoardCell {
 
 	public WalkwayCell(char type)

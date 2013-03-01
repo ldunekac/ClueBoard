@@ -10,7 +10,8 @@ import org.junit.Test;
 
 import junit.framework.Assert;
 
-/*
+/* DESCRIPTION
+ * 
  * These test are designed to test the board its self 
  * 
  * All tests are made for the current legend and board config files
@@ -20,7 +21,7 @@ import junit.framework.Assert;
  * Type of tests
  *  x	- Dimensions of board
  *  		- rows and columns are correct
- * 	x	- calc Index
+ * 	x	- calcIndex
  *  x	- Number of rooms
  *  x	- Character mapping to room names
  *  x	- Correct Number of Doors

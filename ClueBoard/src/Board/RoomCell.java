@@ -2,13 +2,17 @@ package Board;
 
 import java.awt.Graphics;
 
+/* DESCRIPTION
+ * This is a cell to denote a Room
+ * 
+ * If a room does not have a Door it is given the direction of NONE
+ */
 public class RoomCell extends BoardCell {
 	enum DoorDirection {
 		UP, DOWN, LEFT, RIGHT, NONE
 	}
 
 	private DoorDirection doorDirection;
-	private char roomInitial;
 
 	public RoomCell(char roomName)
 	{

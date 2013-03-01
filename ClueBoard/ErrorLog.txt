@@ -26,3 +26,11 @@ Row 17 in the boardConfig file is a defferent length
 Row 17 in the boardConfig file is a defferent length
 Row 17 in the boardConfig file is a defferent length
 Door Direction is not Valid
+Row 17 in the boardConfig file is a defferent length
+Door Direction is not Valid
+Row 17 in the boardConfig file is a defferent length
+Door Direction is not Valid
+Row 17 in the boardConfig file is a defferent length
+Door Direction is not Valid
+Row 17 in the boardConfig file is a defferent length
+Door Direction is not Valid

@@ -8,6 +8,15 @@ import javax.swing.JOptionPane;
 
 import Board.RoomCell.DoorDirection;
 
+/* DESCRIPTION
+ * 
+ * This class keeps tracks of all the cells in the game
+ * 
+ * Board calls InitializeBoard to get all of the board contents
+ * 
+ * and handles any error that are thrown by the InitializeBoard class
+ */
+
 public class Board {
 	private ArrayList<BoardCell> cells;
 	private Map<Character, String> rooms;
@@ -80,10 +89,10 @@ public class Board {
 		return rtn;
 	}
 	
-// FUNCTIONS FOR TESTING ONLY
+// FOR TESTING ONLY
 	
 	public ArrayList<BoardCell> getBoard()
-	{
+	{ // Returns the board
 		return cells;
 	}
 	
@@ -104,7 +113,9 @@ public class Board {
 	}
 	
 	public String getDoorDirection(int row, int column)
-	{
+	{ // Returns the Door Direction as a string
+	  // It is returned as a string and not a DoorDirection because making DoorDirection
+	 // WAS TO DAM ANNOYING and this is only for test
 		int location = calcIndex(row, column);
 		if (cells.get(location) instanceof RoomCell )
 			return ((RoomCell)cells.get(location)).getDirection();
@@ -113,7 +124,7 @@ public class Board {
 	}
 	
 	public String getRoomNameAt(int row, int column)
-	{
+	{ // Return the room name of a given cell
 		int cal = calcIndex(row, column);
 		String s = rooms.get(cells.get(calcIndex(row,column)).getCellCharacter());
 		return s;
