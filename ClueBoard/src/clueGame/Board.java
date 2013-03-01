@@ -2,7 +2,9 @@ package clueGame;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.JOptionPane;
 
@@ -21,6 +23,7 @@ import clueGame.RoomCell.DoorDirection;
 public class Board {
 	private ArrayList<BoardCell> cells;
 	private Map<Character, String> rooms;
+	private LinkedList<Integer> adjacencyList;
 	private int numRows;
 	private int numColumns;
 	private int numberOfRooms;
@@ -140,6 +143,11 @@ public class Board {
 		int location = calcIndex(row, column);
 		return cells.get(location);
 	}
+
+	public LinkedList<Integer> getAdjList(int index) 
+	{
+		return null;
+	}
 	
 	//For test purposes only
 	public DoorDirection getDoorDirection(int row, int column)
@@ -157,5 +165,15 @@ public class Board {
 		int cal = calcIndex(row, column);
 		String s = rooms.get(cells.get(calcIndex(row,column)).getCellCharacter());
 		return s;
+	}
+
+	public void calcTargets(int row, int column, int numberOfSteps)
+	{
+
+	}
+
+	public Set<BoardCell> getTargets() {
+
+		return null;
 	}
 }
