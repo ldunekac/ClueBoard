@@ -12,7 +12,30 @@ public class RoomCell extends BoardCell {
 
 	public RoomCell(char roomName)
 	{
-		cellCharacter = roomName;
+		__init__(roomName, DoorDirection.NONE);
+	}
+	
+	public RoomCell(char roomName, DoorDirection direction)
+	{
+		__init__(roomName, direction);
+	}
+	
+	private void __init__(char roomName, DoorDirection direction)
+	{
+		cellIdentifer = roomName;
+		doorDirection = direction;
+	}
+	@Override
+	public boolean isRoom() {
+		return true;
+	}
+	
+	@Override
+	public boolean isDoorway() {
+		if(doorDirection == DoorDirection.NONE)
+			return false;
+		else
+			return true;
 	}
 	
 	@Override
@@ -23,10 +46,13 @@ public class RoomCell extends BoardCell {
 	// FOR TESTING PURPOSES ONLY
 	public String getDirection()
 	{
-		if(doorDirection == DoorDirection.UP) return "UP";
-		if(doorDirection == DoorDirection.DOWN) return "DOWN";
-		if(doorDirection == DoorDirection.LEFT) return "LEFT";
-		if(doorDirection == DoorDirection.RIGHT) return "RIGHT";
-		return "NONE";
+		switch (doorDirection)
+		{
+			case DOWN : return "DOWN";
+			case UP : return "UP";
+			case RIGHT: return "RIGHT";
+			case LEFT: return "LEFT";
+			default: return "NONE";
+		}
 	}
 }
