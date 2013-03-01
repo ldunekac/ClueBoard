@@ -42,6 +42,7 @@ public class InitializeBoard {
 		__init__(boardFile, legendFile);
 	}
 	
+	// initializes all the attributes of the class;
 	private void __init__(String boardConfigFile, String legendConfigFile)
 	{
 		boardFileName = boardConfigFile;
@@ -53,7 +54,7 @@ public class InitializeBoard {
 	}
 	
 	
-	// retrieve variables
+	// Retrievable variables
 	public ArrayList<BoardCell> getBoardCells()
 	{
 		return cells;
