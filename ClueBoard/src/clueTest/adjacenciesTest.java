@@ -55,7 +55,7 @@ public class AdjacenciesTest {
 		testList = board.getAdjList(board.calcIndex(18, 7));
 			Assert.assertEquals(4, testList.size());
 				Assert.assertTrue(testList.contains(board.calcIndex(18, 6)));
-				Assert.assertTrue(testList.contains(board.calcIndex(18, 9)));
+				Assert.assertTrue(testList.contains(board.calcIndex(18, 8)));
 				Assert.assertTrue(testList.contains(board.calcIndex(17, 7)));
 				Assert.assertTrue(testList.contains(board.calcIndex(19, 7)));
 				
@@ -101,7 +101,7 @@ public class AdjacenciesTest {
 			
 		testList = board.getAdjList(board.calcIndex(11, 4));
 			Assert.assertEquals(1, testList.size());		
-				Assert.assertTrue(testList.contains(board.calcIndex(7, 2)));
+				Assert.assertTrue(testList.contains(board.calcIndex(10, 4)));
 		
 		testList = board.getAdjList(board.calcIndex(16, 5));
 			Assert.assertEquals(1, testList.size());		
@@ -113,7 +113,7 @@ public class AdjacenciesTest {
 	{
 		LinkedList<Integer> testList = board.getAdjList(board.calcIndex(8, 2));
 			Assert.assertEquals(4, testList.size());		
-				Assert.assertTrue(testList.contains(board.calcIndex(8, 0)));
+				Assert.assertTrue(testList.contains(board.calcIndex(8, 1)));
 				Assert.assertTrue(testList.contains(board.calcIndex(8, 3)));
 				Assert.assertTrue(testList.contains(board.calcIndex(7, 2)));
 				Assert.assertTrue(testList.contains(board.calcIndex(9, 2)));
@@ -202,9 +202,8 @@ public class AdjacenciesTest {
 			board.calcTargets(11, 9, 4);
 				targets= board.getTargets();
 					Assert.assertEquals(13, targets.size());
-					Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(9, 8))));
-					Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(13, 8))));
-					Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(14, 12))));
+					Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(11, 7))));
+					Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(14, 10))));
 		// six step
 			board.calcTargets(21, 4, 6);
 				targets= board.getTargets();
@@ -226,12 +225,13 @@ public class AdjacenciesTest {
 				Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(13, 17))));
 				Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(17, 17))));	
 				
-		board.calcTargets(16, 17, 4);
+		board.calcTargets(16, 17, 3);
 			targets= board.getTargets();
-				Assert.assertEquals(14, targets.size());
-				Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(5, 15))));
-				Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(6, 18))));
-				Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(7, 11))));	
+				Assert.assertEquals(15, targets.size());
+				Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(17, 15))));
+				Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(18, 16))));
+				Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(15, 17))));
+				Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(17, 18))));	
 	}
 	
 	// target from room exit

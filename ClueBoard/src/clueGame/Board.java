@@ -2,7 +2,9 @@ package clueGame;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,16 +25,16 @@ import clueGame.RoomCell.DoorDirection;
 public class Board {
 	private ArrayList<BoardCell> cells;
 	private Map<Character, String> rooms;
-	private LinkedList<Integer> adjacencyList;
+	private Map<Integer, LinkedList<Integer>> adjacencyList;
+	private Set<BoardCell> targets;
+	private boolean[] visited;
 	private int numRows;
 	private int numColumns;
 	private int numberOfRooms;
 
 	private String boardConfigFile;
 	private String legendConfigFile;
-	
-	// THE ONLY REASION THE CONSTRUCTORS THROW AN EXCEPTION IS FOR 
-	// THE TEACHERS TESTS ONLY
+
 	public Board()
 	{
 		__init__("boardConfig.csv", "legendConfig.txt");
@@ -51,28 +53,6 @@ public class Board {
 	{
 		boardConfigFile = boardFileName;
 		legendConfigFile = legendFileName;
-			//try {
-
-	//	} 
-		// THIS IS COMMENTED OUT FOR TESTING PURPOSES
-		//catch (FileNotFoundException e) 
-		//{
-		//	String error = boardFileName + " or " +  logFileName + " was not found.";
-		//	JOptionPane.showMessageDialog(null,error);
-		//	System.exit(1);
-		//} 
-		// THIS IS COMMENTED OUT FOR TESTING PURPOSES
-	//	catch (BadConfigFormatException e)
-	//	{
-	//		String error = "Bad ConfigureationFile.\n See ErrorLog.txt for more information";
-	//		JOptionPane.showMessageDialog(null,error);
-	//		System.exit(1);
-	//	}
-		//finally 
-		//{
-		
-		//}
-		
 	}
 	
 	
@@ -85,6 +65,12 @@ public class Board {
 		numRows = initBoard.getNumberOfRows();
 		numColumns = initBoard.getNumberOfColumns();
 		numberOfRooms = initBoard.getNumberOfRooms();
+		adjacencyList = initBoard.getAdjMatrix();
+		visited = new boolean[numRows * numColumns];
+		for(int i = 0; i < numRows * numColumns; i++)
+		{
+			visited[i] = false;
+		}
 	}
 	public int calcIndex(int row, int column) {
 		row = row + 1;
@@ -146,7 +132,7 @@ public class Board {
 
 	public LinkedList<Integer> getAdjList(int index) 
 	{
-		return null;
+		return adjacencyList.get(index);
 	}
 	
 	//For test purposes only
@@ -169,11 +155,41 @@ public class Board {
 
 	public void calcTargets(int row, int column, int numberOfSteps)
 	{
-
+		targets = null;
+		targets = new HashSet<BoardCell>();
+		startTargets(calcIndex(row, column), numberOfSteps, true);
 	}
 
-	public Set<BoardCell> getTargets() {
-
-		return null;
+	  public void startTargets(int location, int steps, boolean firstTime) {
+			// adds location to targetCells if last step
+		if(steps == 0) 
+		{ 
+			targets.add(cells.get(location) );
+		}
+		else if(cells.get(location).isDoorway() && !firstTime)
+		{
+			targets.add(cells.get(location));
+		}
+		else // mark that we visited this location
+		{
+			visited[location] = true;
+			
+			// make an Iterator to step though the adjacency matrix
+			ListIterator it_adjMat = adjacencyList.get(location).listIterator();
+		
+			while(it_adjMat.hasNext())
+			{
+				int next = (Integer) it_adjMat.next();
+				// checvk to see if we visited the location before
+				if(!visited[next])
+					startTargets(next, steps -1, false);
+			}
+		}
+		// reset visted to false
+		visited[location] = false;
+	}
+ 
+  public Set<BoardCell> getTargets() {
+		return targets;
 	}
 }
